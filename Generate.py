@@ -38,9 +38,9 @@ class System(object):
         return acc
 
 
-    def generate(self,x=[], vx=[]):
+    def generate(self,x=[], v=[]):
         print "New planet"
-        p = Planet(x,vx)
+        p = Planet(x,v)
 
         for t in range(0,100):
             acceleration = self.force(p.position)
