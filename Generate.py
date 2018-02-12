@@ -7,17 +7,15 @@ class Planet(object):
     def __init__(self, x=[], vx=[]):
 
         self.history = pd.DataFrame()
-        self.position = np.zeros(3)
-        self.momentum = np.zeros(3)
+        self.position = [0., 0., 0.]
+        self.momentum = [0., 0., 0.]
 
         self.position[0] = x[0]
         self.position[1] = x[1]
 
         self.momentum[0] = vx[0]
         self.momentum[1] = vx[1]
-
-        history = pd.DataFrame({'t': [22], 'position': [self.position]})
-        print(history)
+        #self.history = pd.DataFrame({'t': [22], 'position': [self.position]})
 
     def update(self, acceleration, time):
         self.momentum += acceleration
@@ -29,30 +27,36 @@ class Planet(object):
 
 
 class System(object):
-    def __init__(self):
-        pass
+    def __init__(self, n_steps=100):
+        self.n_steps = n_steps
+        self.planets = np.array([])
 
     def force(self, position):
         g = 0.5
-        acc = -g * position / pow(np.linalg.norm(position), 3)
+        acc = -g * np.array(position) / pow(np.linalg.norm(np.array(position)), 3)
         return acc
 
-    def generate(self, x=[], v=[]):
+    def add_planet(self, x=[], v=[]):
         print("New planet")
         p = Planet(x, v)
 
-        for t in range(0, 100):
+        for t in range(0, self.n_steps):
             acceleration = self.force(p.position)
             p.update(acceleration, t)
 #            if(t % 10 == 0):
 #                print t, p.position
 
+        self.planets = np.append(self.planets, p)
         return p.history
 
+    def view():
+        reference = self.planets[0].history['position'].values
+        for i, p in enumerate(self.planets):
+            for t, step in enumerate(p.history['position'].values):
+                relative_position = step - reference
 
-#s = System()
+    def generate():
+        self.add_planet(x=[20.,30.],v=[0.4,-0.6])
+        self.add_planet(x=[10.,20.],v=[0.2,-0.7])
 
-# print s.generate(50.0, 0.0, 0.02,0.05)
-#s.generate(30.0, 0.0, 0.02,0.05)
-#s.generate(30.0, 10.0, 0.02,0.05)
-#s.generate(30.0, 15.0, 0.02,0.05)
+
