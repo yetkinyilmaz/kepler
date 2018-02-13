@@ -41,7 +41,7 @@ def cartesian(x_in):
     y = np.zeros(len(x_in))
     z = np.zeros(len(x_in))
 
-    for i, v_car in enumerate(x):
+    for i, v_car in enumerate(x_in):
         x[i], y[i], z[i] = v_car[0], v_car[1], v_car[2]
 
     v = np.dstack((x, y, z))[0]
