@@ -55,18 +55,17 @@ class System(object):
 #                print t, p.position
 
         self.bodies = np.append(self.bodies, p)
-        return p.history
 
-    def view(self, iref=0):
+    def view(self, iref=0, n_res=1):
         reference = self.bodies[iref].history['position'].values
         n_body = len(self.bodies)
         self.cartesian = np.zeros(shape=n_body, dtype=object)
         self.cartesian_relative = np.zeros(shape=n_body, dtype=object)
         self.cylindrical_relative = np.zeros(shape=n_body, dtype=object)
         for i, p in enumerate(self.bodies):
-            self.cartesian[i] = cartesian(p.history['position'].values)
+            self.cartesian[i] = cartesian(p.history['position'].values)[::n_res]
             self.cartesian_relative[i] = cartesian(
-                p.history['position'].values - reference)
+                p.history['position'].values - reference)[::n_res]
             self.cylindrical_relative[i] = cylindrical(
                 self.cartesian_relative[i])
 
