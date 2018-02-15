@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-cmap = ['b', 'r', 'c', 'y', 'g', 'm', 'k']
+cmap = ['b', 'm', 'c', 'g', 'y', 'r', 'k']
 
 
 def plot_orbit(ax, system, i_planet):
