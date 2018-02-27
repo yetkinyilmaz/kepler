@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 cmap = ['b', 'm', 'c', 'g', 'y', 'r', 'k']
 
 
-def plot_orbit(ax, system, i_planet):
-    x = system.cartesian[i_planet][:, 0]
-    y = system.cartesian[i_planet][:, 1]
+def plot_orbit(ax, system, i_planet, t_max=1000):
+    x = system.cartesian[i_planet][:t_max, 0]
+    y = system.cartesian[i_planet][:t_max, 1]
     plot = plt.plot(x, y, color=cmap[i_planet])
     return plot
 
