@@ -95,13 +95,37 @@ class System(object):
         return force
 
     def force_constant_y(self, p):
-        force = np.array([0., self.f, 0])
+        force = p.mass * np.array([0., self.f, 0])
+        return force
+
+    def force_pendulum_spring(self, p):
+        force = np.array([0., 0., 0.])
+        if(p.id > 0):
+            force = self.force_spring(p) + self.force_constant_y(p)
         return force
 
     def force_pendulum(self, p):
         force = np.array([0., 0., 0.])
+        tension = np.array([0., 0., 0.])
+        gravity = self.force_constant_y(p)
+        force_long = np.array([0., 0., 0.])
         if(p.id > 0):
-            force = self.force_spring(p) + self.force_constant_y(p)
+            for body in self.bodies:
+                if(np.abs(p.id - body.id) == 1):
+#                    print("Here, p : ", p.id, "  body : ", body.id)
+                    rel_pos = p.position - body.position
+                    norm = np.linalg.norm(rel_pos)
+#                    print("norm : ", norm)
+                    centripetal = np.dot(p.momentum, p.momentum) \
+                        / p.mass / norm
+                    force_long = np.dot(rel_pos, gravity) / norm
+                    stre = centripetal + force_long
+                    if(p.id > body.id):
+                        tension -= rel_pos * stre / norm
+                    else:
+                        tension += rel_pos * stre / norm
+            force = gravity + tension
+#            print("tension : ", tension, "  gravity : ", gravity)
         return force
 
     def add_body(self, x=[], v=[], m=0., stretch=0.):
@@ -149,4 +173,3 @@ class System(object):
                 acceleration = self.force(p)
                 p.update(acceleration)
         self.n_steps += n_steps
-
