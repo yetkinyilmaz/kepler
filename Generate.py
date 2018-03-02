@@ -159,11 +159,11 @@ class System(object):
                 self.cartesian_relative[i])
 
     def generate(self, n):
-        self.add_body(x=[60., 62.], v=[0.07, -0.06], m=0.000001)
-        self.add_body(x=[70., 73.], v=[0.07, -0.07], m=0.000001)
-        self.add_body(x=[74., 76.], v=[0.075, -0.075], m=0.000001)
-        self.add_body(x=[174., 176.], v=[0.025, -0.035], m=0.000001)
-        self.add_body(x=[0., 0.], v=[0., 0.], i=4, m=1.)
+        self.add_body(x=[60., 62.], v=[-0.07, +0.06], m=0.000001)
+        self.add_body(x=[70., 73.], v=[-0.07, +0.07], m=0.000001)
+        self.add_body(x=[74., 76.], v=[-0.075, +0.075], m=0.000001)
+        self.add_body(x=[174., 176.], v=[-0.025, +0.035], m=0.000001)
+        self.add_body(x=[0., 0.], v=[0., 0.], m=1.)
 
     def simulate(self, n_steps):
         for t in np.arange(0, n_steps):
