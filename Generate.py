@@ -58,7 +58,7 @@ class System(object):
         suns = [np.array([-50., 0., 0.]),
                 np.array([50., 0., 0.])]
         for sun in suns:
-            rel_pos = p.position - sun.position
+            rel_pos = p.position - sun
             force += -self.g * p.mass * rel_pos / \
                 pow(np.linalg.norm(rel_pos), 3)
         return force
@@ -158,11 +158,11 @@ class System(object):
             self.cylindrical_relative[i] = cylindrical(
                 self.cartesian_relative[i])
 
-    def generate(self, n):
-        self.add_body(x=[60., 62.], v=[-0.07, +0.06], m=0.000001)
-        self.add_body(x=[70., 73.], v=[-0.07, +0.07], m=0.000001)
-        self.add_body(x=[74., 76.], v=[-0.075, +0.075], m=0.000001)
-        self.add_body(x=[174., 176.], v=[-0.025, +0.035], m=0.000001)
+    def generate(self, n=0):
+        self.add_body(x=[60., 62.], v=[-0.07, +0.06], m=0.00001)
+        self.add_body(x=[70., 73.], v=[-0.07, +0.07], m=0.00001)
+        self.add_body(x=[74., 76.], v=[-0.075, +0.075], m=0.00001)
+        self.add_body(x=[174., 176.], v=[-0.025, +0.035], m=0.00001)
         self.add_body(x=[0., 0.], v=[0., 0.], m=1.)
 
     def simulate(self, n_steps):
