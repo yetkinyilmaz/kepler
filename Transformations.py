@@ -9,12 +9,24 @@ def make_time_series_df(data, depth=10, label='position'):
     return df.tail(len(df.index) - depth)
 
 
-def make_time_series(data, depth=2):
+def make_time_series_single_feature(data, depth=2):
     n = len(data) - depth
     series = np.ndarray(shape=(n, 0))
     for i in np.arange(0, depth):
         series = np.hstack((series, data[i:n + i].reshape(-1, 1)))
     return series
+
+
+def make_time_series(dataset, look_back=1):
+    # input to be [samples, time steps, features]
+    n_feat = dataset.shape[1]
+    x, y = np.ndarray(shape=(0, look_back, n_feat)), np.array([])
+    length = len(dataset) - look_back - 1
+    for i in range(length):
+        a = dataset[i:(i + look_back)].reshape(-1, look_back, n_feat)
+        x = np.concatenate((x, a), axis=0)
+        y = np.concatenate((y, [dataset[i + look_back, 0]]), axis=0)
+    return x, y
 
 
 def get_rho_phi(x, y):
