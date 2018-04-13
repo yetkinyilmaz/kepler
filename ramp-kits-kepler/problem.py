@@ -38,22 +38,14 @@ def get_test_data(path='.'):
 
 
 def get_cv(X, y):
-    cv = ShuffleSplit(n_splits=1, test_size=0.5, random_state=1)
+    cv = ShuffleSplit(n_splits=2, test_size=0.5, random_state=1)
     splits = cv.split(X)
+    print(splits)
 
     # not having this print list crashes
-    something = list(splits)
+#    something = list(splits)
     #  File "/anaconda/envs/python36/lib/python3.6/site-packages/rampwf/utils/testing.py", line 210, in assert_submission
     #    module_path, X_train, y_train, train_is=train_is)
     # adds \n between indices!
 
-#    return splits
-
-    n_tot = len(X)
-    n1 = n_tot // 3
-    n2 = n1 * 2
-
-    return [(np.r_[0:n2], np.r_[n2:n_tot]),
-            (np.r_[n1:n_tot], np.r_[0:n1]),
-            (np.r_[0:n1, n2:n_tot], np.r_[n1:n2])]
-
+    return splits
