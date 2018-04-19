@@ -1,4 +1,4 @@
 #!/bin/sh
 
 #ramp_test_submission --submission formulas
-ramp_test_submission --submission starting_kit --quick-test
+ramp_test_submission --submission starting_kit

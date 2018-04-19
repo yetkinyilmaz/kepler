@@ -22,9 +22,10 @@ s.view(0, n_view)
 # pd.DataFrame({'phi': [phis]}).to_csv('test_angles_single.csv', index=False)
 
 phis = s.get_phi(1)
-data = pd.DataFrame({'phi': phis})\
+time = np.arange(len(phis))
+data = pd.DataFrame({'time': time, 'phi': phis})\
     .to_csv('test_angles_array.csv',
-            columns=['phi'],
+            columns=['time', 'phi'],
             index=False)
 
 df = pd.read_csv("test_angles_array.csv")
