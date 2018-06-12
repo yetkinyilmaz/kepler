@@ -1,4 +1,6 @@
+#include <vector>
 
+using namespace std;
 
 class Orbit {
 
@@ -26,14 +28,16 @@ public:
 void generate(){
 
 
-  TCanvas* c = new TCanvas("c","c",600,600);
-  TH2D* h = new TH2D("h","",500,-100,100,500,-100,100);
+    TCanvas* c = new TCanvas("c","c",600,600);
+    TH2D* h = new TH2D("h","",500,-100,100,500,-100,100);
 
-  int N = 10000;
+    int N = 10000;
 
-  Planet p;
+    vector<Planet> planets;
 
-  double g = 0.5;
+    planets.push_back(Planet())
+
+    double g = 0.5;
 
   //  g = 50;
   //  p.momentum *= 10;

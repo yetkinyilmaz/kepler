@@ -4,7 +4,7 @@ import Generate as gen
 from Transformations import make_time_series
 
 n_sample = 10
-n_sim = 2000
+n_sim = 200000
 n_view = 10
 
 n_steps = n_sim / n_view
@@ -12,7 +12,7 @@ n_future = 20
 
 s = gen.System()
 s.force = s.force_gravity
-s.generate(2)
+s.generate()
 s.simulate(n_sim)
 s.view(0, n_view)
 
@@ -22,7 +22,7 @@ s.view(0, n_view)
 # pd.DataFrame({'phi': [phis]}).to_csv('test_angles_single.csv', index=False)
 
 phis = s.get_phi(1)
-time = np.arange(len(phis))
+time = np.arange(len(phis)) * n_steps
 data = pd.DataFrame({'time': time, 'phi': phis})\
     .to_csv('test_angles_array.csv',
             columns=['time', 'phi'],

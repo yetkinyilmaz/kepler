@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from Transformations import *
 
 
@@ -38,12 +39,16 @@ class Body(object):
 
 
 class System(object):
-    def __init__(self):
+    def __init__(self, load=[]):
         self.n_steps = 0
         self.bodies = np.array([])
         self.g = 1.
         self.k = 1.
         self.f = 1.
+        for file in load:
+            p = self.add_body()
+            p.history = pd.read_csv(file)
+            self.n_steps = len(body.history)
 
     def get_phi(self, i):
         return np.copy(self.cylindrical_relative[i][:, 1])
@@ -143,6 +148,7 @@ class System(object):
         print("Adding body with spring length : ", spring)
         p = Body(position, velocity, i, m, spring=spring)
         self.bodies = np.append(self.bodies, p)
+        return p
 
     def view(self, iref=0, n_res=1):
         reference = self.bodies[iref].history
@@ -161,8 +167,7 @@ class System(object):
     def generate(self, n=0):
         self.add_body(x=[60., 62.], v=[-0.07, +0.06], m=0.00001)
         self.add_body(x=[70., 73.], v=[-0.07, +0.07], m=0.00001)
-        self.add_body(x=[74., 76.], v=[-0.075, +0.075], m=0.00001)
-        self.add_body(x=[174., 176.], v=[-0.025, +0.035], m=0.00001)
+#        self.add_body(x=[174., 176.], v=[-0.025, +0.035], m=0.00001)
         self.add_body(x=[0., 0.], v=[0., 0.], m=1.)
 
     def simulate(self, n_steps):
