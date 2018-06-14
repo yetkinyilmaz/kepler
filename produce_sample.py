@@ -4,15 +4,18 @@ import Generate as gen
 from Transformations import make_time_series
 
 n_sample = 10
-n_sim = 200000
+n_sim = 1000000
 n_view = 10
 
 n_steps = n_sim / n_view
 n_future = 20
 
 s = gen.System()
-s.force = s.force_gravity
-s.generate()
+#s.force = s.force_gravity
+s.force = s.force_single_sun
+
+s.add_body(x=[50., 0.], v=[0., 0.1/np.sqrt(0.5)], m=0.00001)
+s.add_body(x=[100., 0.], v=[0., 0.10], m=0.00001)
 s.simulate(n_sim)
 s.view(0, n_view)
 
@@ -22,9 +25,9 @@ s.view(0, n_view)
 # pd.DataFrame({'phi': [phis]}).to_csv('test_angles_single.csv', index=False)
 
 phis = s.get_phi(1)
-time = np.arange(len(phis)) * n_steps
+time = np.arange(len(phis)) * n_view
 data = pd.DataFrame({'time': time, 'phi': phis})\
-    .to_csv('test_angles_array.csv',
+    .to_csv('test_angles_perfect_circle.csv',
             columns=['time', 'phi'],
             index=False)
 
