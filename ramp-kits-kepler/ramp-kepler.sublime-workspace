@@ -80,10 +80,14 @@
 	"buffers":
 	[
 		{
+			"contents": "import os\nimport pandas as pd\nimport rampwf as rw\nimport xarray as xr\nimport numpy as np\n\nproblem_title =\\\n    'Prediction of the azimuth of Mars'\n\n_n_lookahead = 5\n_n_burn_in = 8  # approximately one year\n_n_test = 10  # approximately ten years\n_filename = 'test_angles_array.csv'\n_target = 'phi'\n# Need better error messages for invalid input parameters\n\n\nPredictions = rw.prediction_types.make_regression(\n    label_names=[_target])\n\n# El Nino, a.k.a. [TimeSeries, FeatureExtractor, Regressor]\nworkflow = rw.workflows.ElNino(check_sizes=[34], check_indexs=[12])\n\nscore_types = [\n    rw.score_types.RelativeRMSE(name='rel_rmse', precision=3)\n]\n\n# CV implemented here:\ncv = rw.cvs.TimeSeries(\n    n_cv=2, cv_block_size=0.2, period=1, unit='space_year')\nget_cv = cv.get_cv\n\n\n# Both train and test targets are stripped off the first\n# n_burn_in entries\n\n\ndef _read_data(path):\n    data_df = pd.read_csv(os.path.join(path, 'data', _filename))\n    data_array = data_df.drop(\n        ['time'], axis=1).values[_n_lookahead:].reshape(-1)\n\n    # x = y to debug look-up times\n    data_array = np.arange(0., len(data_array))\n\n    time = data_df['time'].values[_n_lookahead:]\n    data_xr = xr.DataArray(\n        data_array, coords=[('time', time)], dims=('time'))\n    data_ds = xr.Dataset({'phi': data_xr})\n    data_ds.attrs = {'n_burn_in': _n_burn_in}\n\n    y_array = data_df[_target][:-_n_lookahead].values\n\n    # x = y to debug look-up times\n    y_array = np.arange(0., len(data_array)).reshape(-1, 1)\n    return data_ds, y_array\n\n\ndef get_train_data(path='.'):\n    data_ds, y_array = _read_data(path)\n    data_ds = data_ds.isel(time=slice(None, -_n_test))\n    y_array = y_array[_n_burn_in:-_n_test]\n    # print('train')\n    # print(data_ds)\n    # print(data_ds['time'][-1])\n    print(\"y shape : \", y_array.shape)\n    return data_ds, y_array\n\n\ndef get_test_data(path='.'):\n    data_ds, y_array = _read_data(path)\n    data_ds = data_ds.isel(time=slice(-_n_test, None))\n    y_array = y_array[-_n_test + _n_burn_in:]\n    # print('test')\n    # print(data_ds)\n    # print(data_ds['time'][0])\n    print(\"y shape : \", y_array.shape)\n    return data_ds, y_array\n",
 			"file": "problem.py",
+			"file_size": 2146,
+			"file_write_time": 131692306500000000,
 			"settings":
 			{
-				"buffer_size": 2106,
+				"buffer_size": 2146,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -91,15 +95,20 @@
 			"file": "submissions/starting_kit/ts_feature_extractor.py",
 			"settings":
 			{
-				"buffer_size": 980,
+				"buffer_size": 695,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
+			"contents": "from sklearn.base import BaseEstimator\nfrom keras.layers import Input, Dense\nfrom keras.models import Model\nfrom keras.layers import LSTM\nimport numpy as np\n\n\nclass Regressor(BaseEstimator):\n    def __init__(self):\n        pass\n\n    def fit(self, X, y):\n        self.n_sample = X.shape[1]\n        inputs = Input(shape=(self.n_sample, 1),\n                       dtype='float', name='main_input')\n        layer = LSTM(8)(inputs)\n        predictions = Dense(1)(layer)\n        self.model = Model(inputs=inputs, outputs=predictions)\n        self.model.compile(optimizer='adam',\n                           loss='mean_squared_error')\n\n        self.model.fit(X.reshape(-1, self.n_sample, 1), y,\n                       epochs=1, batch_size=1, verbose=2)\n        print(\"I did something with fit\")\n\n    def predict(self, X):\n        y_pred = np.array(self.model.predict(\n            X.reshape(-1, self.n_sample, 1))).reshape(-1, 1)\n        print(\"I did something with predict\")\n\n        return y_pred\n\n\nclass Regressor2(BaseEstimator):\n    def __init__(self):\n        pass\n\n    def fit(self, X, y):\n        self.n_sample = X.shape[1]\n        inputs = Input(shape=(self.n_sample,),\n                       dtype='float', name='main_input')\n        layer = Dense(60,\n                      activation='relu', kernel_initializer='normal')(inputs)\n        layer = Dense(15,\n                      activation='relu', kernel_initializer='normal')(layer)\n        predictions = Dense(1,\n                            kernel_initializer='normal')(layer)\n        self.model = Model(inputs=inputs, outputs=predictions)\n        self.model.compile(optimizer='adam',\n                           loss='mean_squared_error')\n        self.model.fit(X, y, epochs=5, batch_size=1, verbose=2)\n        print(\"I did something with fit\")\n\n    def predict2(self, X):\n        y_pred = np.array(self.model.predict(X)).reshape(-1, 1)\n        print(\"I did something with predict\")\n\n        return y_pred\n",
 			"file": "submissions/starting_kit/regressor.py",
+			"file_size": 1958,
+			"file_write_time": 131692313660000000,
 			"settings":
 			{
-				"buffer_size": 975,
+				"buffer_size": 1958,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -268,19 +277,71 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2106,
+						"buffer_size": 2146,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								723,
+								723
 							]
 						],
 						"settings":
 						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 105.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "submissions/starting_kit/ts_feature_extractor.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 695,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								695,
+								695
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
@@ -293,56 +354,37 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "submissions/starting_kit/ts_feature_extractor.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 980,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
 					"buffer": 2,
 					"file": "submissions/starting_kit/regressor.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 975,
+						"buffer_size": 1958,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								787,
+								787
 							]
 						],
 						"settings":
 						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,

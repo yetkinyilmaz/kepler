@@ -4,7 +4,7 @@ import Generate as gen
 from Transformations import make_time_series
 
 n_sample = 10
-n_sim = 1000000
+n_sim = 100000
 n_view = 10
 
 n_steps = n_sim / n_view
@@ -27,7 +27,7 @@ s.view(0, n_view)
 phis = s.get_phi(1)
 time = np.arange(len(phis)) * n_view
 data = pd.DataFrame({'time': time, 'phi': phis})\
-    .to_csv('test_angles_perfect_circle.csv',
+    .to_csv('test_angles_perfect_circle_nview10.csv',
             columns=['time', 'phi'],
             index=False)
 
