@@ -83,7 +83,7 @@
 			"file": "Generate.py",
 			"settings":
 			{
-				"buffer_size": 6655,
+				"buffer_size": 7046,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -110,7 +110,7 @@
 			"file": "produce_sample.py",
 			"settings":
 			{
-				"buffer_size": 1191,
+				"buffer_size": 1352,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -271,7 +271,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -280,15 +280,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6655,
+						"buffer_size": 7046,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19,
-								49
+								5934,
+								5934
 							]
 						],
 						"settings":
@@ -314,6 +314,63 @@
 								{
 									"characters": ".",
 									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								}
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2346.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Transformations.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1630,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1052,
+								1052
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": ".",
+									"selector": "source.python - string - comment - constant.numeric"
 								},
 								{
 									"characters": ".",
@@ -337,55 +394,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Transformations.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1630,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								818,
-								818
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".",
-									"selector": "source.python - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 160.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -435,15 +443,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1191,
+						"buffer_size": 1352,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								601,
-								601
+								728,
+								728
 							]
 						],
 						"settings":
@@ -461,6 +469,14 @@
 								{
 									"characters": ".",
 									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
+								},
+								{
+									"characters": ".",
+									"selector": "source.python - string - constant.numeric"
 								}
 							],
 							"auto_name": "",
@@ -469,10 +485,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 47.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
